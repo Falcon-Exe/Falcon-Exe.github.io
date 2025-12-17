@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>QR Treasure Hunt</title>
+  <title>QR Treasure Hunt - Math Edition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- QR Scanner Library -->
   <script src="https://unpkg.com/html5-qrcode"></script>
 
-  <!-- Colorful Professional CSS -->
+  <!-- CONFETTI LIBRARY -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     :root {
       --primary: #2563eb;
@@ -16,54 +18,62 @@
       --accent: #06b6d4;
       --success: #16a34a;
       --error: #dc2626;
-      --bg-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
-      --card-bg: rgba(255, 255, 255, 0.95);
       --text-main: #0f172a;
       --text-muted: #475569;
       --border-soft: #e5e7eb;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
     body {
       margin: 0;
+      padding: 0;
       height: 100vh;
       font-family: "Inter", "Segoe UI", system-ui, sans-serif;
-      background: var(--bg-gradient);
       display: flex;
       justify-content: center;
       align-items: center;
+      background: linear-gradient(270deg, #2563eb, #7c3aed, #06b6d4);
+      background-size: 600% 600%;
+      animation: gradientBG 15s ease infinite;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
     }
 
     .card {
+      position: relative;
       width: 92%;
-      max-width: 420px;
-      padding: 26px;
-      border-radius: 22px;
-      background: var(--card-bg);
-      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      animation: fadeUp 0.45s ease;
+      max-width: 450px;
+      padding: 28px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: pop 0.45s ease;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes pop {
+      from {opacity:0; transform: scale(0.95);}
+      to {opacity:1; transform: scale(1);}
     }
 
     #qr-reader {
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 18px;
-      border: 2px solid var(--border-soft);
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(124, 58, 237, 0.06));
+      width: 100%;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      border: 2px dashed var(--border-soft);
+      background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.06));
     }
 
     h2 {
-      margin: 8px 0 6px;
-      font-size: 1.7rem;
+      margin: 10px 0 6px;
+      font-size: 1.8rem;
       font-weight: 700;
       color: var(--text-main);
       text-align: center;
@@ -72,29 +82,28 @@
     p {
       margin: 0 0 18px;
       font-size: 1.05rem;
-      line-height: 1.6;
       color: var(--text-muted);
       text-align: center;
     }
 
     button {
       width: 100%;
-      padding: 15px;
-      font-size: 1.1rem;
+      padding: 16px;
+      font-size: 1.15rem;
       font-weight: 600;
       border: none;
-      border-radius: 16px;
+      border-radius: 18px;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
+      color: white;
       cursor: pointer;
-      box-shadow: 0 12px 22px rgba(37,99,235,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+      box-shadow: 0 10px 20px rgba(37,99,235,0.35);
+      margin-top: 8px;
+      transition: all 0.2s ease;
     }
 
     button:hover {
       transform: translateY(-2px);
-      filter: brightness(1.05);
-      box-shadow: 0 16px 26px rgba(37, 99, 235, 0.45);
+      box-shadow: 0 14px 26px rgba(37,99,235,0.45);
     }
 
     button:active {
@@ -124,11 +133,28 @@
       100% { transform: translateX(0); }
     }
 
+    .progress-container {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      transition: width 0.4s ease;
+    }
+
     .card:has(button[style*="display: none"]) {
       background: linear-gradient(135deg, #f0f9ff, #ecfeff);
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 450px) {
       h2 { font-size: 1.5rem; }
       p { font-size: 1rem; }
     }
@@ -137,20 +163,26 @@
 
 <body>
   <div class="card">
+    <div class="progress-container">
+      <div id="progress" class="progress-bar"></div>
+    </div>
+
     <div id="qr-reader"></div>
-    <h2 id="title">QR Treasure Hunt</h2>
-    <p id="question">Press Start to begin your mission</p>
+    <h2 id="title">QR Treasure Hunt - Math Edition</h2>
+    <p id="question">Press Start to begin</p>
 
     <button id="mainBtn" onclick="nextAction()">Start</button>
     <p id="error"></p>
   </div>
 
   <script>
+    // Updated steps with your new questions
     const steps = [
-      { q: "Question 1: Solve 5 + 3", a: "8" },
-      { q: "Question 2: Solve 10 × 2", a: "20" },
-      { q: "Question 3: Solve 15 − 4", a: "11" },
-      { q: "🎉 Congratulations! Treasure Found! 🎉", a: null }
+      { q: "Who worked mainly in number theory and lived in the 20th century?", a: "Ramanujan" },
+      { q: "Which number less than 30 has exactly six positive factors?", a: "12" },
+      { q: "Which prime number can be written as the difference of two perfect squares?", a: "2" },
+      { q: "Even number, not divisible by 4, sum of two primes?", a: "6" },
+      { q: "🎉 Congratulations! You finished the Math Treasure Hunt! 🎉", a: null }
     ];
 
     let step = -1;
@@ -161,6 +193,7 @@
         step = 0;
         showStep();
         document.getElementById("mainBtn").textContent = "📷 Scan QR";
+        updateProgress();
         return;
       }
       startScanner();
@@ -180,11 +213,14 @@
         error.textContent = "🏆 You completed the hunt!";
         error.className = "success";
         document.getElementById("mainBtn").style.display = "none";
+        launchConfetti();
+        updateProgress(100);
         return;
       }
 
       title.textContent = `Step ${step + 1}`;
       question.textContent = steps[step].q;
+      updateProgress();
     }
 
     function startScanner() {
@@ -205,14 +241,38 @@
     }
 
     function checkAnswer(value) {
-      if (value.trim() === steps[step].a) {
+      if (value.trim().toLowerCase() === steps[step].a.toLowerCase()) {
         step++;
         showStep();
       } else {
         const error = document.getElementById("error");
-        error.textContent = "❌ Wrong QR! Try again";
+        error.textContent = "❌ Wrong answer! Try again";
         error.className = "error";
       }
+    }
+
+    function updateProgress(final=0) {
+      const progress = document.getElementById("progress");
+      if(final){
+        progress.style.width = "100%";
+        return;
+      }
+      const percent = ((step) / (steps.length-1)) * 100;
+      progress.style.width = `${percent}%`;
+    }
+
+    function launchConfetti() {
+      const duration = 3 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
     }
   </script>
 </body>
