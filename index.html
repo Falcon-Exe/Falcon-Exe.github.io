@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>QR Treasure Hunt - Math Edition</title>
+  <title><b>Treasure Hunt</b></title>
+  <div class="footer">
+  NUMINA MATHS CLUB
+    MAJLIS ARTS AND SCIENCE COLLEGE
+</div>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- QR Scanner Library -->
@@ -141,6 +146,19 @@
       margin-bottom: 18px;
       overflow: hidden;
     }
+    .footer {
+  position: fixed;       /* Always stays at the bottom */
+  bottom: 0;
+  left: 0;
+  width: 100%;           /* Full width */
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent background */
+  color: white;          /* Text color */
+  text-align: center;    /* Centered text */
+  padding: 10px 0;       /* Some padding */
+  font-size: 0.95rem;    /* Smaller text */
+  z-index: 1000;         /* Always on top */
+}
+
 
     .progress-bar {
       height: 100%;
@@ -277,4 +295,5 @@
   </script>
 </body>
 </html>
+
 
