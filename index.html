@@ -8,7 +8,7 @@
   <!-- QR Scanner Library -->
   <script src="https://unpkg.com/html5-qrcode"></script>
 
-  <!-- CONFETTI LIBRARY -->
+  <!-- Confetti Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -26,15 +26,15 @@
     body {
       margin: 0;
       padding: 0;
-      height: 100vh;
       font-family: "Inter", "Segoe UI", system-ui, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: 100vh;
       background: linear-gradient(270deg, #2563eb, #7c3aed, #06b6d4);
       background-size: 600% 600%;
       animation: gradientBG 15s ease infinite;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     @keyframes gradientBG {
@@ -84,6 +84,7 @@
       font-size: 1.05rem;
       color: var(--text-muted);
       text-align: center;
+      white-space: pre-line; /* preserve line breaks */
     }
 
     button {
@@ -191,30 +192,29 @@
   <div class="footer">
     NUMINA MATHS CLUB - MAJLIS ARTS AND SCIENCE COLLEGE
   </div>
-<!-- ================= AUDIO CODE START ================= -->
-<audio id="bgMusic" loop autoplay>
-  <source src="Dark-Knight-chosic.com_.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
 
-<!-- ================= AUDIO CODE END ================= -->
-
+  <!-- ================= AUDIO CODE START ================= -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="Dark-Knight-chosic.com_.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <!-- ================= AUDIO CODE END ================= -->
 
   <script>
-      // Autoplay music (muted to satisfy browser autoplay policies)
-  const music = document.getElementById('bgMusic');
-  music.volume = 0.2; // Optional: set volume low
-  music.play().catch(() => {
-    // If browser blocks autoplay, unmute on first interaction
-    document.addEventListener('click', () => music.play(), { once: true });
-  });
+    // Autoplay background music (low volume)
+    const music = document.getElementById('bgMusic');
+    music.volume = 0.2;
+    music.play().catch(() => {
+      // If browser blocks autoplay, play on first click
+      document.addEventListener('click', () => music.play(), { once: true });
+    });
 
     // Treasure Hunt Steps
     const steps = [
       { q: "Who worked mainly in number theory and lived in the 20th century?", a: "Ramanujan" },
       { q: "Which number less than 30 has exactly six positive factors?", a: "12" },
       { q: "Which prime number can be written as the difference of two perfect squares?", a: "2" },
-      { q: "Even number, not divisible by 4, sum of two primes?", a: "6" },
+      { q: "One becomes one, two are born from one, the next carries the memory of both. Follow my rhythm, and I shall lead you to where steps echo in ascent?", a: "Fibonacci sequence" },
       { q: "🎉 Congratulations! You finished the Math Treasure Hunt! 🎉", a: null }
     ];
 
@@ -310,9 +310,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
