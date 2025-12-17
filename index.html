@@ -192,20 +192,25 @@
   <div class="footer">
     NUMINA MATHS CLUB - MAJLIS ARTS AND SCIENCE COLLEGE
   </div>
+<!-- ================= AUDIO CODE START ================= -->
+<audio id="bgMusic" loop autoplay>
+  <source src="Dark-Knight-chosic.com_.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
-  <!-- AUDIO ELEMENT -->
-  <audio id="bgMusic" loop>
-    <source src="Dark-Knight-chosic.com_.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+<script>
+  // Autoplay music (muted to satisfy browser autoplay policies)
+  const music = document.getElementById('bgMusic');
+  music.volume = 0.2; // Optional: set volume low
+  music.play().catch(() => {
+    // If browser blocks autoplay, unmute on first interaction
+    document.addEventListener('click', () => music.play(), { once: true });
+  });
+</script>
+<!-- ================= AUDIO CODE END ================= -->
+
 
   <script>
-    // Music control
-    let musicPlaying = false;
-    function toggleMusic() {
-      const music = document.getElementById('bgMusic');
-      const btn = document.getElementById('musicBtn');
-    }
 
     // Treasure Hunt Steps
     const steps = [
