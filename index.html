@@ -198,19 +198,17 @@
   Your browser does not support the audio element.
 </audio>
 
-<script>
-  // Autoplay music (muted to satisfy browser autoplay policies)
+<!-- ================= AUDIO CODE END ================= -->
+
+
+  <script>
+      // Autoplay music (muted to satisfy browser autoplay policies)
   const music = document.getElementById('bgMusic');
   music.volume = 0.2; // Optional: set volume low
   music.play().catch(() => {
     // If browser blocks autoplay, unmute on first interaction
     document.addEventListener('click', () => music.play(), { once: true });
   });
-</script>
-<!-- ================= AUDIO CODE END ================= -->
-
-
-  <script>
 
     // Treasure Hunt Steps
     const steps = [
@@ -313,5 +311,6 @@
   </script>
 </body>
 </html>
+
 
 
