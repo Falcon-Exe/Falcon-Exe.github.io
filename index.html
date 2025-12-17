@@ -3,11 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Treasure Hunt</title>
-  <div class="footer">
-  NUMINA MATHS CLUB<break></break>
-    MAJLIS ARTS AND SCIENCE COLLEGE
-</div>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- QR Scanner Library -->
@@ -146,19 +141,6 @@
       margin-bottom: 18px;
       overflow: hidden;
     }
-    .footer {
-  position: fixed;       /* Always stays at the bottom */
-  bottom: 0;
-  left: 0;
-  width: 100%;           /* Full width */
-  background: rgba(0, 0, 0, 0.6); /* semi-transparent background */
-  color: white;          /* Text color */
-  text-align: center;    /* Centered text */
-  padding: 10px 0;       /* Some padding */
-  font-size: 0.95rem;    /* Smaller text */
-  z-index: 1000;         /* Always on top */
-}
-
 
     .progress-bar {
       height: 100%;
@@ -170,6 +152,19 @@
 
     .card:has(button[style*="display: none"]) {
       background: linear-gradient(135deg, #f0f9ff, #ecfeff);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 0.95rem;
+      z-index: 1000;
     }
 
     @media (max-width: 450px) {
@@ -190,11 +185,38 @@
     <p id="question">Press Start to begin</p>
 
     <button id="mainBtn" onclick="nextAction()">Start</button>
+    <button id="musicBtn" onclick="toggleMusic()">🎵 Play Music</button>
     <p id="error"></p>
   </div>
 
+  <div class="footer">
+    NUMINA MATHS CLUB - MAJLIS ARTS AND SCIENCE COLLEGE
+  </div>
+
+  <!-- AUDIO ELEMENT -->
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
   <script>
-    // Updated steps with your new questions
+    // Music control
+    let musicPlaying = false;
+    function toggleMusic() {
+      const music = document.getElementById('bgMusic');
+      const btn = document.getElementById('musicBtn');
+      if (!musicPlaying) {
+        music.play();
+        btn.textContent = "⏸ Pause Music";
+        musicPlaying = true;
+      } else {
+        music.pause();
+        btn.textContent = "🎵 Play Music";
+        musicPlaying = false;
+      }
+    }
+
+    // Treasure Hunt Steps
     const steps = [
       { q: "Who worked mainly in number theory and lived in the 20th century?", a: "Ramanujan" },
       { q: "Which number less than 30 has exactly six positive factors?", a: "12" },
@@ -295,7 +317,3 @@
   </script>
 </body>
 </html>
-
-
-
-
