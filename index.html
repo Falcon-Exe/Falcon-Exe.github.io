@@ -8,8 +8,21 @@
   <!-- QR Scanner Library -->
   <script src="https://unpkg.com/html5-qrcode"></script>
 
-  <!-- BEST GAME CSS -->
+  <!-- Colorful Professional CSS -->
   <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --accent: #06b6d4;
+      --success: #16a34a;
+      --error: #dc2626;
+      --bg-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-soft: #e5e7eb;
+    }
+
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
@@ -18,68 +31,70 @@
     body {
       margin: 0;
       height: 100vh;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: linear-gradient(135deg, #2563eb, #9333ea);
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg-gradient);
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .card {
-      width: 90%;
+      width: 92%;
       max-width: 420px;
-      padding: 24px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.93);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      animation: pop 0.4s ease;
+      padding: 26px;
+      border-radius: 22px;
+      background: var(--card-bg);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      animation: fadeUp 0.45s ease;
     }
 
-    @keyframes pop {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     #qr-reader {
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
-      margin-bottom: 16px;
-      border: 2px dashed #e5e7eb;
+      margin-bottom: 18px;
+      border: 2px solid var(--border-soft);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(124, 58, 237, 0.06));
     }
 
     h2 {
-      margin: 8px 0;
-      font-size: 1.6rem;
+      margin: 8px 0 6px;
+      font-size: 1.7rem;
       font-weight: 700;
-      color: #111827;
+      color: var(--text-main);
       text-align: center;
     }
 
     p {
+      margin: 0 0 18px;
       font-size: 1.05rem;
-      color: #374151;
-      line-height: 1.5;
+      line-height: 1.6;
+      color: var(--text-muted);
       text-align: center;
-      margin-bottom: 16px;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       font-size: 1.1rem;
       font-weight: 600;
       border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      color: white;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
       cursor: pointer;
-      box-shadow: 0 10px 20px rgba(37,99,235,0.35);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 12px 22px rgba(37,99,235,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
     }
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 24px rgba(37,99,235,0.45);
+      filter: brightness(1.05);
+      box-shadow: 0 16px 26px rgba(37, 99, 235, 0.45);
     }
 
     button:active {
@@ -89,14 +104,15 @@
     .error {
       margin-top: 14px;
       font-weight: 600;
-      color: #dc2626;
-      animation: shake 0.3s ease;
+      color: var(--error);
       text-align: center;
+      animation: shake 0.3s ease;
     }
 
     .success {
-      color: #16a34a;
+      margin-top: 14px;
       font-weight: 700;
+      color: var(--success);
       text-align: center;
     }
 
@@ -107,11 +123,19 @@
       75% { transform: translateX(-4px); }
       100% { transform: translateX(0); }
     }
+
+    .card:has(button[style*="display: none"]) {
+      background: linear-gradient(135deg, #f0f9ff, #ecfeff);
+    }
+
+    @media (max-width: 420px) {
+      h2 { font-size: 1.5rem; }
+      p { font-size: 1rem; }
+    }
   </style>
 </head>
 
 <body>
-
   <div class="card">
     <div id="qr-reader"></div>
     <h2 id="title">QR Treasure Hunt</h2>
@@ -191,6 +215,5 @@
       }
     }
   </script>
-
 </body>
 </html>
